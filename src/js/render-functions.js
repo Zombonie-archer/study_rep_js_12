@@ -38,7 +38,7 @@ export function createGallery(images) {
     )
     .join('');
 
-  galleryContainer.innerHTML = markup;
+  galleryContainer.insertAdjacentHTML('beforeend', markup);
   lightbox.refresh();
 }
 
