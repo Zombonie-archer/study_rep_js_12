@@ -7,6 +7,8 @@ import {
   clearGallery,
   showLoader,
   hideLoader,
+  hideLoadMoreButton,
+  showLoadMoreButton
 } from './js/render-functions.js';
 
 const form = document.querySelector('.form');
@@ -15,7 +17,7 @@ let page = 1;
 let currentQuery = '';
 
 form.addEventListener('submit', async event => {
-  loadMoreButton.classList.add('hidden');
+  hideLoadMoreButton();
   page = 1;
   event.preventDefault();
   currentQuery = event.target.elements['search-text'].value.trim();
@@ -32,6 +34,7 @@ form.addEventListener('submit', async event => {
 
   try {
     const data = await getImagesByQuery(currentQuery, page);
+    hideLoader();
     if (!data.hits || data.hits.length === 0) {
       iziToast.error({
         title: 'Error',
@@ -43,7 +46,7 @@ form.addEventListener('submit', async event => {
     }
     createGallery(data.hits);
     if (data.totalHits > page * 15) {
-      loadMoreButton.classList.remove('hidden');
+      showLoadMoreButton();
     } else {
       iziToast.info({
         title: 'Info',
@@ -59,17 +62,18 @@ form.addEventListener('submit', async event => {
         'An error occurred while fetching images. Please try again later.',
       position: 'topRight',
     });
+    hideLoader();
   }
-  hideLoader();
   event.target.reset();
 });
 
 loadMoreButton.addEventListener('click', async () => {
   page++;
-  loadMoreButton.classList.add('hidden');
+  hideLoadMoreButton();
   showLoader();
   try {
     const data = await getImagesByQuery(currentQuery, page);
+    hideLoader();
     if (!data.hits || data.hits.length === 0) {
       iziToast.error({
         title: 'Error',
@@ -88,7 +92,7 @@ loadMoreButton.addEventListener('click', async () => {
       behavior: 'smooth',
     });
     if (data.totalHits > page * 15) {
-      loadMoreButton.classList.remove('hidden');
+      showLoadMoreButton();
     } else {
       iziToast.info({
         title: 'Info',
@@ -104,6 +108,6 @@ loadMoreButton.addEventListener('click', async () => {
         'An error occurred while fetching images. Please try again later.',
       position: 'topRight',
     });
+    hideLoader();
   }
-  hideLoader();
 });
