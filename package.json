@@ -1,11 +1,11 @@
 {
-  "name": "study_rep_js_11",
+  "name": "study_rep_js_12",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/study_rep_js_11/",
+    "build": "vite build --base=/study_rep_js_12/",
     "preview": "vite preview"
   },
   "devDependencies": {
